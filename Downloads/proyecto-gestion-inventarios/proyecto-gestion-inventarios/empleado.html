@@ -1,0 +1,91 @@
+<!-- empleado.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Vista Empleado - Inventario</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div id="appHeader"></div>
+
+  <div class="mb-6 grid gap-4 md:grid-cols-2">
+    <div class="bg-white rounded-xl shadow p-5">
+      <h2 class="text-base font-semibold text-slate-900">Resumen rápido</h2>
+      <p class="mt-2 text-sm text-slate-500">Observa el estado de tus productos y realiza movimientos.</p>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200/10 bg-slate-950/80 p-4">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Total productos</p>
+          <p id="resumenTotalProductos" class="mt-2 text-3xl font-semibold text-slate-100">0</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200/10 bg-slate-950/80 p-4">
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-400">Bajo stock</p>
+          <p id="resumenBajoStock" class="mt-2 text-3xl font-semibold text-rose-400">0</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow p-5">
+      <h2 class="text-base font-semibold text-slate-900">Gestión de movimientos</h2>
+      <p class="mt-2 text-sm text-slate-500">Registra entradas y salidas de forma rápida.</p>
+    </div>
+  </div>
+
+  <!-- Filtro -->
+  <div class="mb-4">
+    <select id="filtroCategoria" class="border rounded-lg px-3 py-2 bg-white">
+      <option value="">Todas las categorías</option>
+    </select>
+  </div>
+
+  <!-- Tabla solo lectura -->
+  <div class="bg-white rounded-xl shadow overflow-hidden mb-6">
+    <table class="w-full text-sm text-left">
+      <thead class="bg-gray-50 text-gray-500 uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3">Producto</th>
+          <th class="px-4 py-3">Categoría</th>
+          <th class="px-4 py-3">Stock</th>
+          <th class="px-4 py-3">Precio</th>
+        </tr>
+      </thead>
+      <tbody id="tablaProductos" class="divide-y"></tbody>
+    </table>
+  </div>
+
+  <!-- Formulario Entrada/Salida -->
+  <div class="bg-white rounded-xl shadow p-5 max-w-md">
+    <h2 class="text-sm font-semibold text-gray-500 uppercase mb-4">Registrar Movimiento</h2>
+    <form id="formMovimiento" class="space-y-3">
+      <select id="movProducto" class="w-full border rounded-lg px-3 py-2" required></select>
+      <select id="movTipo" class="w-full border rounded-lg px-3 py-2" required>
+        <option value="entrada">Entrada</option>
+        <option value="salida">Salida</option>
+      </select>
+      <input id="movCantidad" type="number" min="1" placeholder="Cantidad" class="w-full border rounded-lg px-3 py-2" required>
+      <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700">
+        Registrar
+      </button>
+      <p id="movMsg" class="text-sm"></p>
+    </form>
+  </div>
+
+ <script src="js/config/constants.js"></script>
+<script src="js/models/Producto.js"></script>
+<script src="js/models/Movimiento.js"></script>
+<script src="js/models/Usuario.js"></script>
+<script src="js/data/initData.js"></script>
+<script src="js/services/storageCache.js"></script>
+<script src="js/auth/auth.js"></script>
+<script src="js/services/productoService.js"></script>
+<script src="js/services/movimientoService.js"></script>
+<script src="js/services/uiPermisos.js"></script>
+<script src="js/utils/ui.js"></script>
+<script>
+    initData();
+    protegerRuta();
+    renderAppHeader('Inventario');
+  </script>
+<script src="js/app-empleado.js"></script>
+</body>
+</html>

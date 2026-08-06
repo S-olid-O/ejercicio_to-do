@@ -1,0 +1,59 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión - Inventario</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-10">
+  <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md border border-slate-700/50 backdrop-blur-xl">
+    <div class="page-title mb-6 text-center">
+      <h1 class="text-3xl font-bold">Bienvenido al Inventario</h1>
+      <p class="mt-2 text-sm text-slate-400">Ingresa tus credenciales para acceder al panel.</p>
+    </div>
+    <form id="formLogin" class="space-y-4">
+      <div>
+        <label for="loginUsuario" class="mb-2 block text-sm font-medium text-slate-300">Usuario</label>
+        <input id="loginUsuario" type="text" placeholder="admin" class="w-full rounded-2xl border border-slate-600 bg-slate-950/70 px-4 py-3 text-slate-100 focus:border-blue-500" required>
+      </div>
+      <div>
+        <label for="loginPassword" class="mb-2 block text-sm font-medium text-slate-300">Contraseña</label>
+        <input id="loginPassword" type="password" placeholder="••••••••" class="w-full rounded-2xl border border-slate-600 bg-slate-950/70 px-4 py-3 text-slate-100 focus:border-blue-500" required>
+      </div>
+      <button type="submit" class="w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/10 transition hover:bg-blue-500">Ingresar</button>
+      <p id="loginMsg" class="text-sm text-red-500 min-h-[1.25rem]"></p>
+    </form>
+    <div class="mt-6 rounded-2xl border border-slate-700 bg-slate-950/70 p-4 text-center text-sm text-slate-400">
+      Usa <strong>admin/admin123</strong> o <strong>jperez/emp123</strong> para probar el sistema.
+    </div>
+  </div>
+
+  <script src="js/config/constants.js"></script>
+  <script src="js/models/Producto.js"></script>
+  <script src="js/models/Movimiento.js"></script>
+  <script src="js/models/Usuario.js"></script>
+  <script src="js/data/initData.js"></script>
+  <script src="js/services/storageCache.js"></script>
+  <script src="js/auth/auth.js"></script>
+  <script src="js/utils/ui.js"></script>
+  <script>
+    initData();
+
+    document.getElementById('formLogin').addEventListener('submit', e => {
+      e.preventDefault();
+      const usuario = document.getElementById('loginUsuario').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const resultado = login(usuario, password);
+      if (!resultado.ok) {
+        document.getElementById('loginMsg').textContent = resultado.msg;
+        return;
+      }
+
+      window.location.href = resultado.rol === ROLES.ADMIN ? 'dashboard.html' : 'empleado.html';
+    });
+  </script>
+</body>
+</html>

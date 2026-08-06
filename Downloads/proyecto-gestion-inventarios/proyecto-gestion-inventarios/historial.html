@@ -1,0 +1,77 @@
+<!-- historial.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial de Movimientos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div id="appHeader"></div>
+  <div class="bg-white rounded-xl shadow p-6 mb-6">
+    <h1 class="text-2xl font-bold text-slate-900">Historial de Movimientos</h1>
+    <p class="mt-2 text-sm text-slate-500">Filtra y revisa los movimientos registrados en el sistema.</p>
+  </div>
+
+  <!-- Filtros -->
+  <div class="flex flex-wrap gap-3 mb-4">
+    <input id="filtroFecha" type="date" class="border rounded-lg px-3 py-2 bg-white">
+    <select id="filtroTipo" class="border rounded-lg px-3 py-2 bg-white">
+      <option value="">Todos los tipos</option>
+      <option value="entrada">Entrada</option>
+      <option value="salida">Salida</option>
+    </select>
+    <button id="btnLimpiar" class="px-3 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">Limpiar</button>
+  </div>
+
+  <!-- Tabla -->
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+    <table class="w-full text-sm text-left">
+      <thead class="bg-gray-50 text-gray-500 uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3">Fecha</th>
+          <th class="px-4 py-3">Producto</th>
+          <th class="px-4 py-3">Tipo</th>
+          <th class="px-4 py-3">Cant.</th>
+          <th class="px-4 py-3">Usuario</th>
+        </tr>
+      </thead>
+      <tbody id="tablaHistorial" class="divide-y"></tbody>
+    </table>
+  </div>
+
+  <script src="js/config/constants.js"></script>
+  <script src="js/models/Producto.js"></script>
+  <script src="js/models/Movimiento.js"></script>
+  <script src="js/models/Usuario.js"></script>
+  <script src="js/data/initData.js"></script>
+  <script src="js/services/storageCache.js"></script>
+  <script src="js/auth/auth.js"></script>
+  <script src="js/services/productoService.js"></script>
+  <script src="js/services/movimientoService.js"></script>
+  <script src="js/services/uiPermisos.js"></script>
+  <script src="js/services/historialService.js"></script>
+  <script>
+    initData();
+    protegerRuta();
+    renderAppHeader('Historial');
+    renderHistorial();
+
+    document.getElementById('filtroFecha').addEventListener('change', aplicarFiltros);
+    document.getElementById('filtroTipo').addEventListener('change', aplicarFiltros);
+    document.getElementById('btnLimpiar').addEventListener('click', () => {
+      document.getElementById('filtroFecha').value = '';
+      document.getElementById('filtroTipo').value = '';
+      renderHistorial();
+    });
+
+    function aplicarFiltros() {
+      renderHistorial({
+        fecha: document.getElementById('filtroFecha').value,
+        tipo: document.getElementById('filtroTipo').value
+      });
+    }
+  </script>
+</body>
+</html>
